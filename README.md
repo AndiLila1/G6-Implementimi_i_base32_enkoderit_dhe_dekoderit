@@ -1,0 +1,1 @@
+# G6-Implementimi-i-base32-enkoderit-dhe-dekoderit.
