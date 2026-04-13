@@ -43,5 +43,21 @@ class Base32App:
                 variable=self.mode,
             ).grid(row=0, column=0, padx=(0, 16), pady=4, sticky="w")
 
+  ttk.Radiobutton(
+            controls,
+            text="Decode",
+            value="decode",
+            variable=self.mode,
+        ).grid(row=0, column=1, padx=(0, 16), pady=4, sticky="w")
+
+        ttk.Button(controls, text="Puno", command=self.process_text).grid(
+            row=0, column=2, padx=(10, 8), pady=4
+        )
+        ttk.Button(controls, text="Pastro", command=self.clear_fields).grid(
+            row=0, column=3, padx=8, pady=4
+        )
+        ttk.Button(controls, text="Kopjo rezultatin", command=self.copy_result).grid(
+            row=0, column=4, padx=8, pady=4
+        )
 
 
