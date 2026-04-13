@@ -94,3 +94,23 @@ footer = ttk.Label(
 )
 footer.pack(anchor="e", pady=(10, 0))
 
+
+def process_text(self) -> None:
+    raw_text = self.input_text.get("1.0", "end").strip()
+    if not raw_text:
+        messagebox.showwarning("Mungon teksti", "Shkruaj tekst për ta përpunuar.")
+        return
+
+    try:
+        if self.mode.get() == "encode":
+            result = base64.b32encode(raw_text.encode("utf-8")).decode("ascii")
+        else:
+            normalized = raw_text.replace(" ", "").upper()
+            decoded = base64.b32decode(normalized, casefold=True)
+            result = decoded.decode("utf-8")
+    except Exception as exc:
+        messagebox.showerror("Gabim", f"Nuk u përpunua teksti:\n{exc}")
+        return
+
+    self._set_output(result)
+
