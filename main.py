@@ -119,4 +119,21 @@ def process_text(self) -> None:
         self.input_text.delete("1.0", "end")
         self._set_output("")
 
+        def copy_result(self) -> None:
+            result = self.output_text.get("1.0", "end").strip()
+            if not result:
+                messagebox.showinfo("Pa rezultat", "Nuk ka rezultat për t'u kopjuar.")
+                return
+
+            self.root.clipboard_clear()
+            self.root.clipboard_append(result)
+            self.root.update()
+            messagebox.showinfo("U kopjua", "Rezultati u kopjua në clipboard.")
+
+        def _set_output(self, value: str) -> None:
+            self.output_text.config(state="normal")
+            self.output_text.delete("1.0", "end")
+            self.output_text.insert("1.0", value)
+            self.output_text.config(state="disabled")
+
 
