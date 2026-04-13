@@ -136,4 +136,21 @@ def process_text(self) -> None:
             self.output_text.insert("1.0", value)
             self.output_text.config(state="disabled")
 
+            def main() -> None:
+                root = tk.Tk()
+                style = ttk.Style()
+                style.theme_use("clam")
+                style.configure("TFrame", background="#f4f7fb")
+                style.configure("TLabelframe", background="#f4f7fb")
+                style.configure("TLabelframe.Label", background="#f4f7fb", font=("Segoe UI", 10, "bold"))
+                style.configure("TLabel", background="#f4f7fb", foreground="#1f2937")
+                style.configure("TRadiobutton", background="#f4f7fb", font=("Segoe UI", 10))
+                style.configure("TButton", font=("Segoe UI", 10, "bold"), padding=8)
+
+                Base32App(root)
+                root.mainloop()
+
+            if __name__ == "__main__":
+                main()
+
 
