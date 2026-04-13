@@ -15,35 +15,35 @@ class Base32App:
 
         self._build_ui()
 
-        def _build_ui(self) -> None:
-            container = ttk.Frame(self.root, padding=20)
-            container.pack(fill="both", expand=True)
+    def _build_ui(self) -> None:
+        container = ttk.Frame(self.root, padding=20)
+        container.pack(fill="both", expand=True)
 
-            title = ttk.Label(
-                container,
-                text="Base32 Encoder / Decoder",
-                font=("Segoe UI", 20, "bold"),
-            )
-            title.pack(anchor="center", pady=(0, 8))
+        title = ttk.Label(
+            container,
+            text="Base32 Encoder / Decoder",
+            font=("Segoe UI", 20, "bold"),
+        )
+        title.pack(anchor="center", pady=(0, 8))
 
-            subtitle = ttk.Label(
-                container,
-                text="Shkruaj tekstin dhe zgjidh Encode ose Decode.",
-                font=("Segoe UI", 10),
-            )
-            subtitle.pack(anchor="center", pady=(0, 18))
+        subtitle = ttk.Label(
+            container,
+            text="Shkruaj tekstin dhe zgjidh Encode ose Decode.",
+            font=("Segoe UI", 10),
+        )
+        subtitle.pack(anchor="center", pady=(0, 18))
 
-            controls = ttk.LabelFrame(container, text="Veprimet", padding=14)
-            controls.pack(fill="x", pady=(0, 14))
+        controls = ttk.LabelFrame(container, text="Veprimet", padding=14)
+        controls.pack(fill="x", pady=(0, 14))
 
-            ttk.Radiobutton(
-                controls,
-                text="Encode",
-                value="encode",
-                variable=self.mode,
-            ).grid(row=0, column=0, padx=(0, 16), pady=4, sticky="w")
+        ttk.Radiobutton(
+            controls,
+            text="Encode",
+            value="encode",
+            variable=self.mode,
+        ).grid(row=0, column=0, padx=(0, 16), pady=4, sticky="w")
 
-  ttk.Radiobutton(
+        ttk.Radiobutton(
             controls,
             text="Decode",
             value="decode",
@@ -60,97 +60,95 @@ class Base32App:
             row=0, column=4, padx=8, pady=4
         )
 
-input_frame = ttk.LabelFrame(container, text="Hyrja", padding=14)
-input_frame.pack(fill="both", expand=True, pady=(0, 12))
+        input_frame = ttk.LabelFrame(container, text="Hyrja", padding=14)
+        input_frame.pack(fill="both", expand=True, pady=(0, 12))
 
-self.input_text = tk.Text(
-    input_frame,
-    wrap="word",
-    height=10,
-    font=("Consolas", 11),
-    relief="solid",
-    borderwidth=1,
-)
-self.input_text.pack(fill="both", expand=True)
+        self.input_text = tk.Text(
+            input_frame,
+            wrap="word",
+            height=10,
+            font=("Consolas", 11),
+            relief="solid",
+            borderwidth=1,
+        )
+        self.input_text.pack(fill="both", expand=True)
 
-output_frame = ttk.LabelFrame(container, text="Rezultati", padding=14)
-output_frame.pack(fill="both", expand=True)
+        output_frame = ttk.LabelFrame(container, text="Rezultati", padding=14)
+        output_frame.pack(fill="both", expand=True)
 
-self.output_text = tk.Text(
-    output_frame,
-    wrap="word",
-    height=10,
-    font=("Consolas", 11),
-    relief="solid",
-    borderwidth=1,
-    state="disabled",
-)
-self.output_text.pack(fill="both", expand=True)
+        self.output_text = tk.Text(
+            output_frame,
+            wrap="word",
+            height=10,
+            font=("Consolas", 11),
+            relief="solid",
+            borderwidth=1,
+            state="disabled",
+        )
+        self.output_text.pack(fill="both", expand=True)
 
-footer = ttk.Label(
-    container,
-    text="Program i thjeshtë desktop me Python Tkinter.",
-    font=("Segoe UI", 9),
-)
-footer.pack(anchor="e", pady=(10, 0))
+        footer = ttk.Label(
+            container,
+            text="Program i thjeshte desktop me Python Tkinter.",
+            font=("Segoe UI", 9),
+        )
+        footer.pack(anchor="e", pady=(10, 0))
 
+    def process_text(self) -> None:
+        raw_text = self.input_text.get("1.0", "end").strip()
+        if not raw_text:
+            messagebox.showwarning("Mungon teksti", "Shkruaj tekst per ta perpunuar.")
+            return
 
-def process_text(self) -> None:
-    raw_text = self.input_text.get("1.0", "end").strip()
-    if not raw_text:
-        messagebox.showwarning("Mungon teksti", "Shkruaj tekst për ta përpunuar.")
-        return
+        try:
+            if self.mode.get() == "encode":
+                result = base64.b32encode(raw_text.encode("utf-8")).decode("ascii")
+            else:
+                normalized = raw_text.replace(" ", "").upper()
+                decoded = base64.b32decode(normalized, casefold=True)
+                result = decoded.decode("utf-8")
+        except Exception as exc:
+            messagebox.showerror("Gabim", f"Nuk u perpunua teksti:\n{exc}")
+            return
 
-    try:
-        if self.mode.get() == "encode":
-            result = base64.b32encode(raw_text.encode("utf-8")).decode("ascii")
-        else:
-            normalized = raw_text.replace(" ", "").upper()
-            decoded = base64.b32decode(normalized, casefold=True)
-            result = decoded.decode("utf-8")
-    except Exception as exc:
-        messagebox.showerror("Gabim", f"Nuk u përpunua teksti:\n{exc}")
-        return
-
-    self._set_output(result)
-
+        self._set_output(result)
 
     def clear_fields(self) -> None:
         self.input_text.delete("1.0", "end")
         self._set_output("")
 
-        def copy_result(self) -> None:
-            result = self.output_text.get("1.0", "end").strip()
-            if not result:
-                messagebox.showinfo("Pa rezultat", "Nuk ka rezultat për t'u kopjuar.")
-                return
+    def copy_result(self) -> None:
+        result = self.output_text.get("1.0", "end").strip()
+        if not result:
+            messagebox.showinfo("Pa rezultat", "Nuk ka rezultat per t'u kopjuar.")
+            return
 
-            self.root.clipboard_clear()
-            self.root.clipboard_append(result)
-            self.root.update()
-            messagebox.showinfo("U kopjua", "Rezultati u kopjua në clipboard.")
+        self.root.clipboard_clear()
+        self.root.clipboard_append(result)
+        self.root.update()
+        messagebox.showinfo("U kopjua", "Rezultati u kopjua ne clipboard.")
 
-        def _set_output(self, value: str) -> None:
-            self.output_text.config(state="normal")
-            self.output_text.delete("1.0", "end")
-            self.output_text.insert("1.0", value)
-            self.output_text.config(state="disabled")
-
-            def main() -> None:
-                root = tk.Tk()
-                style = ttk.Style()
-                style.theme_use("clam")
-                style.configure("TFrame", background="#f4f7fb")
-                style.configure("TLabelframe", background="#f4f7fb")
-                style.configure("TLabelframe.Label", background="#f4f7fb", font=("Segoe UI", 10, "bold"))
-                style.configure("TLabel", background="#f4f7fb", foreground="#1f2937")
-                style.configure("TRadiobutton", background="#f4f7fb", font=("Segoe UI", 10))
-                style.configure("TButton", font=("Segoe UI", 10, "bold"), padding=8)
-
-                Base32App(root)
-                root.mainloop()
-
-            if __name__ == "__main__":
-                main()
+    def _set_output(self, value: str) -> None:
+        self.output_text.config(state="normal")
+        self.output_text.delete("1.0", "end")
+        self.output_text.insert("1.0", value)
+        self.output_text.config(state="disabled")
 
 
+def main() -> None:
+    root = tk.Tk()
+    style = ttk.Style()
+    style.theme_use("clam")
+    style.configure("TFrame", background="#f4f7fb")
+    style.configure("TLabelframe", background="#f4f7fb")
+    style.configure("TLabelframe.Label", background="#f4f7fb", font=("Segoe UI", 10, "bold"))
+    style.configure("TLabel", background="#f4f7fb", foreground="#1f2937")
+    style.configure("TRadiobutton", background="#f4f7fb", font=("Segoe UI", 10))
+    style.configure("TButton", font=("Segoe UI", 10, "bold"), padding=8)
+
+    Base32App(root)
+    root.mainloop()
+
+
+if __name__ == "__main__":
+    main()
