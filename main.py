@@ -60,4 +60,19 @@ class Base32App:
             row=0, column=4, padx=8, pady=4
         )
 
+input_frame = ttk.LabelFrame(container, text="Hyrja", padding=14)
+input_frame.pack(fill="both", expand=True, pady=(0, 12))
+
+self.input_text = tk.Text(
+    input_frame,
+    wrap="word",
+    height=10,
+    font=("Consolas", 11),
+    relief="solid",
+    borderwidth=1,
+)
+self.input_text.pack(fill="both", expand=True)
+
+output_frame = ttk.LabelFrame(container, text="Rezultati", padding=14)
+output_frame.pack(fill="both", expand=True)
 
