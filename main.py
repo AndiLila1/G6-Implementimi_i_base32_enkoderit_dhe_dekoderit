@@ -114,3 +114,9 @@ def process_text(self) -> None:
 
     self._set_output(result)
 
+
+    def clear_fields(self) -> None:
+        self.input_text.delete("1.0", "end")
+        self._set_output("")
+
+
