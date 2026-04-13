@@ -76,3 +76,21 @@ self.input_text.pack(fill="both", expand=True)
 output_frame = ttk.LabelFrame(container, text="Rezultati", padding=14)
 output_frame.pack(fill="both", expand=True)
 
+self.output_text = tk.Text(
+    output_frame,
+    wrap="word",
+    height=10,
+    font=("Consolas", 11),
+    relief="solid",
+    borderwidth=1,
+    state="disabled",
+)
+self.output_text.pack(fill="both", expand=True)
+
+footer = ttk.Label(
+    container,
+    text="Program i thjeshtë desktop me Python Tkinter.",
+    font=("Segoe UI", 9),
+)
+footer.pack(anchor="e", pady=(10, 0))
+
