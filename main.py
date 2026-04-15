@@ -1,6 +1,7 @@
 import base64
 import tkinter as tk
 from tkinter import messagebox, ttk
+from Enkoderi import encode_base32
 
 
 class Base32App:
@@ -102,7 +103,7 @@ class Base32App:
 
         try:
             if self.mode.get() == "encode":
-                result = base64.b32encode(raw_text.encode("utf-8")).decode("ascii")
+                result = encode_base32(raw_text.encode("utf-8"))
             else:
                 normalized = raw_text.replace(" ", "").upper()
                 decoded = base64.b32decode(normalized, casefold=True)
