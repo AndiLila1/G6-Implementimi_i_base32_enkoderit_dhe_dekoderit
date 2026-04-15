@@ -13,3 +13,10 @@ def split_bits(bits: str):
         chunks.append(chunk)
     return chunks
 
+def chunks_to_base32(chunks):
+    result = ""
+    for chunk in chunks:
+        index = int(chunk, 2)
+        result += alfabeti_dhe_numrat[index]
+    return result
+
