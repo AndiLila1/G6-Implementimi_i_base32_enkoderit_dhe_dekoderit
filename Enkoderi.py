@@ -20,8 +20,13 @@ def chunks_to_base32(chunks):
         result += alfabeti_dhe_numrat[index]
     return result
 
+def add_padding(base32_str: str) -> str:
+    while len(base32_str) % 8 != 0:
+        base32_str += "="
+    return base32_str 
 
 def encode_base32(data: bytes) -> str:
     bits = bytes_to_bits(data)
     chunks = split_bits(bits)
-    return chunks_to_base32(chunks)
+    base32_str = chunks_to_base32(chunks)
+    return add_padding(base32_str)

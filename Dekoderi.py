@@ -4,7 +4,7 @@ def base32_to_bits(text: str) -> str:
   for char in text:
     index = alfabeti_dhe_numrat.index(char)
     bits += f"{index:05b}"
- return bits
+  return bits
 
 def bits_to_bytes(bits: str) -> bytes:
     rezultat = bytearray()
@@ -15,7 +15,8 @@ def bits_to_bytes(bits: str) -> bytes:
     return bytes(rezultat)
     
 def decode_base32(text: str) -> bytes:
-  text = text.strip().replace(" ","").upper()
+  text = text.strip().replace(" ","").upper().rstrip("=")  
   bits = base32_to_bits(text)
-return bits_to_bytes(bits)
+  bits = bits[:len(bits) - (len(bits) % 8)]               
+  return bits_to_bytes(bits)
   
